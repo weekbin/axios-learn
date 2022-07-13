@@ -1,22 +1,12 @@
-/**
- * It takes a regular expression and a string, and returns an array of all the matches
- *
- * @param {string} regExp - The regular expression to match against.
- * @param {string} str - The string to search.
- *
- * @returns {Array<boolean>}
- */
-function matchAll(regExp, str) {
-    let matches;
-    const arr = [];
+const axios = require('./dist/node/axios.cjs');
 
-    while ((matches = regExp.exec(str)) !== null) {
-        arr.push(matches);
-    }
+const request = axios.create({
+  baseURL: 'https://api.github.com'
+})
 
-    return arr;
-}
+request.interceptors.request.use(config => config)
+request.interceptors.response.use(res => res)
 
-const r = matchAll(/\w+|\[(\w*)]/g, 'foo.x.y.z')
+const a = request.get('/users/octocat')
 
-console.log(r)
+console.log(a)
